@@ -15,8 +15,8 @@
 /* Для добавления предсказания в список воспользуйся шаблоном forecast-item */
 const forecastButton = document.querySelector('.forecast-btn');
 const containerForecasts = document.querySelector('.forecasts');
-const forecastTitleItem = document.querySelector('h1');
-const forecastTextItem = document.querySelector('p');
+const currentForecastTitle = document.querySelector('.current-forecast h1');
+const currentForecastText = document.querySelector('.current-forecast p');
 const forecastTemplate = document.querySelector('#forecast-item');
 
 function percentageProbability(min, max) {
@@ -30,11 +30,11 @@ function makeCardByTemplate(title, text) {
     myForecast.querySelector('h3').textContent = title;
     myForecast.querySelector('p').textContent = text;
 
-    return myForecast;
+    containerForecasts.prepend(myForecast);
 }
 
-forecastButton.addEventListener('click', function () {
-    let predictionNumber = percentageProbability(1, 6);
+function generatePrediction() {
+    const predictionNumber = percentageProbability(1, 6);
     let predictionText = "";
 
     if (predictionNumber == 1) {
@@ -49,17 +49,21 @@ forecastButton.addEventListener('click', function () {
         predictionText = "На WB отменят все комиссии";
     }
 
-    if (!forecastTitleItem.textContent && !forecastTitleItem.textContent) {
-        forecastTitleItem.textContent = predictionText;
-        forecastTextItem.textContent = 'Вероятность ' + percentageProbability(0, 101) + '%';
+    return predictionText;
+}
 
-    } else {
-        const newForecast = makeCardByTemplate(forecastTitleItem.textContent, forecastTextItem.textContent);
-        containerForecasts.prepend(newForecast);
+function addPrediction() {
+    const title = currentForecastTitle.textContent;
+    const probability = currentForecastText.textContent;
 
-        forecastTextItem.textContent = '';
-        forecastTextItem.textContent = '';
-        forecastTitleItem.textContent = predictionText;
-        forecastTextItem.textContent = 'Вероятность ' + percentageProbability(1, 100) + '%';
+    if (!title && !probability) {
+        currentForecastTitle.textContent = generatePrediction();
+        currentForecastText.textContent = `Вероятность ${percentageProbability(1, 100)}%`;
     }
-})
+
+    makeCardByTemplate(currentForecastTitle.textContent, currentForecastText.textContent);
+    currentForecastTitle.textContent = generatePrediction();
+    currentForecastText.textContent = `Вероятность ${percentageProbability(1, 100)}%`;
+}
+
+forecastButton.addEventListener('click', addPrediction);
