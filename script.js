@@ -60,10 +60,11 @@ function addPrediction() {
         currentForecastTitle.textContent = generatePrediction();
         currentForecastText.textContent = `Вероятность ${percentageProbability(1, 100)}%`;
     }
-
-    makeCardByTemplate(currentForecastTitle.textContent, currentForecastText.textContent);
-    currentForecastTitle.textContent = generatePrediction();
-    currentForecastText.textContent = `Вероятность ${percentageProbability(1, 100)}%`;
+    else {
+        makeCardByTemplate(currentForecastTitle.textContent, currentForecastText.textContent);
+        currentForecastTitle.textContent = generatePrediction();
+        currentForecastText.textContent = `Вероятность ${percentageProbability(1, 100)}%`;
+    }
 }
 
 forecastButton.addEventListener('click', addPrediction);
