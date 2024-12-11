@@ -49,7 +49,8 @@ function generatePrediction() {
         predictionText = "На WB отменят все комиссии";
     }
 
-    return predictionText;
+    currentForecastTitle.textContent = predictionText;
+    currentForecastText.textContent = `Вероятность ${percentageProbability(1, 100)}%`;
 }
 
 function addPrediction() {
@@ -57,13 +58,11 @@ function addPrediction() {
     const probability = currentForecastText.textContent;
 
     if (!title && !probability) {
-        currentForecastTitle.textContent = generatePrediction();
-        currentForecastText.textContent = `Вероятность ${percentageProbability(1, 100)}%`;
+        generatePrediction();
     }
     else {
-        makeCardByTemplate(currentForecastTitle.textContent, currentForecastText.textContent);
-        currentForecastTitle.textContent = generatePrediction();
-        currentForecastText.textContent = `Вероятность ${percentageProbability(1, 100)}%`;
+        makeCardByTemplate(title, probability);
+        generatePrediction();
     }
 }
 
